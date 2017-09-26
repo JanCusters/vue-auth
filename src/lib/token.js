@@ -1,4 +1,5 @@
 var __cookie = require('./cookie.js');
+var store = require('../../../../../client/store'); // path to your Vuex store
 
 module.exports = (function () {
 
@@ -33,6 +34,10 @@ module.exports = (function () {
         return true;
     }
 
+    function isVuexSupported() {
+        return true;
+    }
+
     function processToken(action, name, token) {
         var i, ii,
             args = [tokenName.call(this, name)];
@@ -48,6 +53,16 @@ module.exports = (function () {
 
             else if (this.options.tokenStore[i] === 'cookie' && isCookieSupported()) {
                 return __cookie[action].apply(this, args);
+            }
+
+             else if (this.options.tokenStore[i] === 'vuex' && isVuexSupported()) {              
+                if (action === 'get') {
+                    return store.default.getters['auth/getAccessToken']        
+                }
+
+                else {
+                    return store.default.commit('auth/${action}AccessToken', token)
+                }
             }
         }
     }
