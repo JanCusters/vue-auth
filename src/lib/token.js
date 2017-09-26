@@ -60,8 +60,12 @@ module.exports = (function () {
                     return store.default.getters['auth/getAccessToken']        
                 }
 
-                else {
-                    return store.default.commit('auth/${action}AccessToken', token)
+                else if (action === 'set') {
+                    return store.default.commit('auth/setAccessToken', token)
+                }
+
+                else if (action === 'remove') {
+                    return store.default.commit('auth/removeAccessToken')
                 }
             }
         }
