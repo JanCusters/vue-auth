@@ -387,8 +387,9 @@ module.exports = function () {
 
             data.state = data.state || {};
             data.state.rememberMe = data.rememberMe === true;
+            data.response_type = data.response_type || 'code';
 
-            params = '?client_id=' + data.clientId + '&redirect_uri=' + data.redirect + '&scope=' + data.scope + '&response_type=code&state=' + encodeURIComponent(JSON.stringify(data.state));
+            params = '?client_id=' + data.clientId + '&redirect_uri=' + data.redirect + '&scope=' + data.scope + '&response_type=' + data.response_type + '&state=' + encodeURIComponent(JSON.stringify(data.state));
 
             window.location = data.url + params;
         }
@@ -483,6 +484,8 @@ module.exports = function () {
             _this = this,
             drivers = ['auth', 'http', 'router'];
 
+        this.currentToken = null;
+
         this.options = __utils.extend(defaultOptions, [options || {}]);
         this.options.Vue = Vue;
 
@@ -497,7 +500,7 @@ module.exports = function () {
             },
 
             watch: {
-                loaded(val) {
+                loaded: function (val) {
                     if (val === true && _this.options.readyCallback) {
                         _this.options.readyCallback();
                     }
@@ -604,7 +607,19 @@ module.exports = function () {
 
     Auth.prototype.oauth2 = function (data) {
         __bindContext.call(this, 'oauth2', data);
-    }    
+    }
+
+    Auth.prototype.enableImpersonate = function () {
+        if (this.impersonating()) {
+            this.currentToken = null;
+        }
+    };
+
+    Auth.prototype.disableImpersonate = function () {
+        if (this.impersonating()) {
+            this.currentToken = this.options.tokenDefaultName;
+        }
+    }; 
 
     return Auth;
 };

@@ -4,6 +4,8 @@ var store = require('../../../../../client/store'); // path to your Vuex store
 module.exports = (function () {
 
     function tokenName(name) {
+        name = name || this.currentToken;
+        
         if (name) {
             return name;
         }

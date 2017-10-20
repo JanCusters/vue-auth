@@ -1,10 +1,14 @@
 # Change Log
 
-### v2.18.0-beta
+### v2.18.x-beta
  
+ * Fix compile issue when using `function` shorthand.
+ * Update 2.x demo to include 401 redirect.
+ * Add ability to set `response_type` for oauth2.
  * Add ability to set callback function using `$auth.ready(callback)`.
+ * Restore enable/disable other as `disableImpersonate` and `enableImpersonate`.
 
-### v2.17.0-beta
+### v2.17.x-beta
 
 * Change "other" to "impersonate" keyword (and all accompanying functions).
 * Add `ignoreVueAuth` field that can be set on requests to prevent setting headers or tokens on requests.
